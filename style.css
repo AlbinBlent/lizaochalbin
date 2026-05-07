@@ -17,7 +17,7 @@ html, body {
   background: var(--bg);
   color: var(--ink);
   font-family: 'DM Sans', system-ui, sans-serif;
-  font-size: 17px;
+  font-size: 19px;
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -58,7 +58,7 @@ main {
 .lang-switch {
   text-align: center;
   padding: 0 0 8px;
-  font-size: 11px;
+  font-size: 13px;
   letter-spacing: 0.24em;
   text-transform: uppercase;
 }
@@ -85,7 +85,7 @@ main {
 
 .eyebrow {
   font-family: 'DM Sans', sans-serif;
-  font-size: 12px;
+  font-size: 14px;
   letter-spacing: 0.32em;
   text-transform: uppercase;
   color: var(--ink-soft);
@@ -114,7 +114,7 @@ main {
   font-family: 'Fraunces', serif;
   font-variation-settings: 'opsz' 14, 'wght' 400;
   font-style: italic;
-  font-size: 19px;
+  font-size: 22px;
   color: var(--ink-soft);
   margin: 24px 0 0;
 }
@@ -163,14 +163,14 @@ main {
   font-family: 'Fraunces', serif;
   font-style: italic;
   color: var(--ink-soft);
-  font-size: 15px;
+  font-size: 17px;
 }
 
 /* GREETING */
 .greeting {
   font-family: 'Fraunces', serif;
   font-variation-settings: 'opsz' 24, 'wght' 350;
-  font-size: 20px;
+  font-size: 23px;
   line-height: 1.55;
   text-align: center;
   color: var(--ink);
@@ -201,7 +201,7 @@ main {
 }
 .detail:last-child { border-bottom: none; }
 .detail-label {
-  font-size: 11px;
+  font-size: 13px;
   letter-spacing: 0.28em;
   text-transform: uppercase;
   color: var(--ink-soft);
@@ -210,14 +210,14 @@ main {
 .detail-value {
   font-family: 'Fraunces', serif;
   font-variation-settings: 'opsz' 24, 'wght' 400;
-  font-size: 19px;
+  font-size: 22px;
   color: var(--ink);
   line-height: 1.4;
 }
 .detail-value .meta {
   display: block;
   font-family: 'DM Sans', sans-serif;
-  font-size: 14px;
+  font-size: 16px;
   color: var(--ink-soft);
   margin-top: 4px;
 }
@@ -231,7 +231,7 @@ main {
   font-family: 'Fraunces', serif;
   font-variation-settings: 'opsz' 48, 'wght' 400;
   font-style: italic;
-  font-size: 32px;
+  font-size: 36px;
   font-weight: 400;
   text-align: center;
   margin: 0 0 32px;
@@ -254,17 +254,17 @@ main {
 .schedule-time {
   font-family: 'Fraunces', serif;
   font-variation-settings: 'opsz' 24, 'wght' 400;
-  font-size: 17px;
+  font-size: 19px;
   color: var(--accent);
   font-feature-settings: 'tnum';
 }
 .schedule-event {
-  font-size: 16px;
+  font-size: 18px;
   color: var(--ink);
 }
 .schedule-event .place {
   display: block;
-  font-size: 14px;
+  font-size: 16px;
   color: var(--ink-soft);
   margin-top: 2px;
 }
@@ -283,19 +283,19 @@ main {
   align-items: baseline;
   padding: 12px 0;
   border-bottom: 1px solid var(--rule);
-  font-size: 16px;
+  font-size: 18px;
 }
 .contact-list li:last-child { border-bottom: none; }
 .contact-name {
   font-family: 'Fraunces', serif;
   font-variation-settings: 'opsz' 24, 'wght' 400;
-  font-size: 18px;
+  font-size: 20px;
   color: var(--ink);
 }
 .contact-list a {
   color: var(--accent);
   text-decoration: none;
-  font-size: 15px;
+  font-size: 17px;
   letter-spacing: 0.02em;
 }
 .contact-list a:hover { text-decoration: underline; }
@@ -308,7 +308,7 @@ main {
 .osa-deadline {
   font-family: 'Fraunces', serif;
   font-style: italic;
-  font-size: 17px;
+  font-size: 19px;
   color: var(--ink-soft);
   margin: 0 0 20px;
 }
@@ -320,7 +320,7 @@ main {
   border-radius: 2px;
   text-decoration: none;
   font-family: 'DM Sans', sans-serif;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 500;
   letter-spacing: 0.22em;
   text-transform: uppercase;
@@ -341,12 +341,12 @@ main {
 .footer-monogram {
   font-family: 'Fraunces', serif;
   font-style: italic;
-  font-size: 22px;
+  font-size: 26px;
   color: var(--accent);
   margin: 0 0 6px;
 }
 .footer-meta {
-  font-size: 12px;
+  font-size: 14px;
   letter-spacing: 0.24em;
   text-transform: uppercase;
   color: var(--ink-soft);
