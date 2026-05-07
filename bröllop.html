@@ -30,6 +30,27 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..700,0..100&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
+  <style>
+    html, body { font-size: 22px; }
+    .lang-switch { font-size: 15px; }
+    .eyebrow { font-size: 16px; }
+    .hero-sub { font-size: 26px; }
+    .greeting { font-size: 26px; }
+    .detail-label { font-size: 15px; }
+    .detail-value { font-size: 25px; }
+    .detail-value .meta { font-size: 18px; }
+    .schedule h2, .section-heading { font-size: 40px; }
+    .schedule-time { font-size: 22px; }
+    .schedule-event { font-size: 21px; }
+    .schedule-event .place { font-size: 18px; }
+    .contact-list li { font-size: 21px; }
+    .contact-name { font-size: 23px; }
+    .contact-list a { font-size: 20px; }
+    .osa-deadline { font-size: 22px; }
+    .button { font-size: 17px; }
+    .footer-monogram { font-size: 30px; }
+    .footer-meta { font-size: 16px; }
+  </style>
 </head>
 <body>
   <main>
@@ -56,7 +77,7 @@
     <!-- PHOTO -->
     <section class="photo reveal reveal-2" aria-label="Foto">
       <!-- Lägg en bild på er som /images/hero.jpg i repot. Bredd ~1600px räcker. -->
-      <img src="images/hero.jpg" alt="Liza och Albin" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+      <img src="images/hero-bröllop.jpg" alt="Liza och Albin" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
       <div class="photo-placeholder" style="display:none;">Bild kommer här</div>
     </section>
 
@@ -90,25 +111,11 @@
         </span>
       </div>
       <div class="detail">
-        <span class="detail-label">Klädsel</span>
-        <span class="detail-value">
-          Mörk kostym
-          <span class="meta">För herrar innebär det en mörk kostym med skjorta och slips eller fluga. För damer passar en elegant klänning bäst.</span>
-        </span>
-      </div>
-      <div class="detail">
         <span class="detail-label">OSA senast</span>
         <span class="detail-value">
           30 juni 2026
         </span>
       </div>
-    </section>
-
-    <!-- OSA -->
-    <section class="osa reveal reveal-5">
-      <h2 class="section-heading">OSA</h2>
-      <p class="osa-deadline">Vi vill veta innan 30 juni om ni kommer.</p>
-      <button class="button" data-tally-open="ZjPVkB" data-tally-layout="modal" data-tally-auto-close="3000">Svara här</button>
     </section>
 
     <!-- SCHEDULE -->
@@ -138,9 +145,13 @@
       <p>Barn är underbara men den här dagen väljer vi att fira i vuxet sällskap. Spädbarn är självklart välkomna.</p>
     </section>
 
-    <!-- KONTAKT -->
-    <section class="greeting reveal reveal-6">
-      <h2 class="section-heading">Kontakt</h2>
+    <!-- OSA -->
+    <section class="osa reveal reveal-5">
+      <h2 class="section-heading">OSA</h2>
+      <p class="osa-deadline">Vi vill veta innan <strong>30 juni</strong> om ni kommer.</p>
+      <p class="osa-deadline">Ni kan svara via formuläret</p>
+      <button class="button" data-tally-open="ZjPVkB" data-tally-layout="modal" data-tally-auto-close="3000">här</button>
+      <p class="osa-deadline">eller kontakta oss direkt</p>
       <ul class="contact-list">
         <li><span class="contact-name">Albin Blent</span><a href="tel:+46704990538">+46 70 499 05 38</a></li>
         <li><span class="contact-name">Liza Youhanan</span><a href="tel:+46737188195">+46 73 718 81 95</a></li>

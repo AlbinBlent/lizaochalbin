@@ -204,7 +204,7 @@ main {
   font-size: 13px;
   letter-spacing: 0.28em;
   text-transform: uppercase;
-  color: var(--ink-soft);
+  color: var(--ink);
   font-weight: 500;
 }
 .detail-value {
@@ -330,6 +330,7 @@ main {
 }
 .button:hover { background: var(--ink); }
 .button:active { transform: scale(0.98); }
+.osa .button { margin-bottom: 32px; }
 
 /* FOOTER */
 .footer {
