@@ -50,6 +50,31 @@
     .button { font-size: 17px; }
     .footer-monogram { font-size: 30px; }
     .footer-meta { font-size: 16px; }
+    .douchi-desktop {
+      display: none;
+    }
+    .douchi-mobile {
+      text-align: center;
+    }
+    .douchi-mobile img {
+      width: 200px;
+      height: auto;
+    }
+    @media (min-width: 700px) {
+      .douchi-desktop {
+        display: block;
+        position: fixed;
+        bottom: 0;
+        right: 24px;
+        width: 220px;
+        height: auto;
+        z-index: 10;
+        pointer-events: none;
+      }
+      .douchi-mobile {
+        display: none;
+      }
+    }
   </style>
 </head>
 <body>
@@ -153,12 +178,20 @@
       </ul>
     </section>
 
+    <!-- DOUCHI (mobile) -->
+    <div class="douchi-mobile reveal reveal-6">
+      <img src="images/douchi-cutout.png" alt="Douchi, vår hund" />
+    </div>
+
     <!-- FOOTER -->
     <footer class="footer reveal reveal-6">
       <p class="footer-monogram">L &amp; A</p>
       <p class="footer-meta">10 · 10 · 2026</p>
     </footer>
   </main>
+
+  <!-- DOUCHI (desktop) -->
+  <img class="douchi-desktop" src="images/douchi-cutout.png" alt="Douchi, vår hund" />
   <script src="https://tally.so/widgets/embed.js"></script>
 </body>
 </html>

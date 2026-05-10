@@ -365,6 +365,33 @@ section:first-of-type { margin-top: 0; }
   section { margin: 72px 0; }
 }
 
+/* DOUCHI */
+.douchi-desktop {
+  display: none;
+}
+.douchi-mobile {
+  text-align: center;
+}
+.douchi-mobile img {
+  width: 200px;
+  height: auto;
+}
+@media (min-width: 700px) {
+  .douchi-desktop {
+    display: block;
+    position: fixed;
+    bottom: 0;
+    right: 24px;
+    width: 220px;
+    height: auto;
+    z-index: 10;
+    pointer-events: none;
+  }
+  .douchi-mobile {
+    display: none;
+  }
+}
+
 /* Honor reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
   .reveal { opacity: 1; transform: none; animation: none; }
