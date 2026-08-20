@@ -396,3 +396,125 @@ section:first-of-type { margin-top: 0; }
 @media (prefers-reduced-motion: reduce) {
   .reveal { opacity: 1; transform: none; animation: none; }
 }
+
+/* HERO CTA (dansinstruktioner) */
+.hero-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 28px;
+  padding: 12px 22px;
+  border: 1px solid var(--accent-soft);
+  border-radius: 999px;
+  color: var(--accent);
+  text-decoration: none;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+.hero-cta .arrow {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 18px;
+  letter-spacing: 0;
+  text-transform: none;
+  line-height: 1;
+  transition: transform 0.2s ease;
+}
+.hero-cta:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--bg);
+}
+.hero-cta:hover .arrow { transform: translateX(3px); }
+
+/* DANCE PAGE */
+.back-link {
+  display: inline-block;
+  color: var(--ink-soft);
+  text-decoration: none;
+  font-size: 14px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.back-link:hover { color: var(--accent); }
+
+.page-title {
+  font-family: 'Fraunces', serif;
+  font-variation-settings: 'opsz' 144, 'SOFT' 50, 'wght' 400;
+  font-size: clamp(44px, 10vw, 72px);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  margin: 0;
+  color: var(--ink);
+}
+.page-title .amp {
+  font-style: italic;
+  font-variation-settings: 'opsz' 144, 'SOFT' 100, 'wght' 300;
+  color: var(--accent);
+}
+
+.video-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 56px;
+}
+.video-item {
+  display: grid;
+  gap: 14px;
+}
+.video-head {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+}
+.video-num {
+  font-family: 'Fraunces', serif;
+  font-variation-settings: 'opsz' 24, 'wght' 400;
+  font-style: italic;
+  font-size: 19px;
+  color: var(--accent);
+  font-feature-settings: 'tnum';
+  flex: none;
+}
+.video-title {
+  font-family: 'Fraunces', serif;
+  font-variation-settings: 'opsz' 24, 'wght' 400;
+  font-size: 22px;
+  font-weight: 400;
+  margin: 0;
+  color: var(--ink);
+}
+.video-duration {
+  margin-left: auto;
+  font-size: 14px;
+  letter-spacing: 0.12em;
+  color: var(--ink-soft);
+  font-feature-settings: 'tnum';
+  flex: none;
+}
+.video-frame {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: var(--bg-warm);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.video-frame video {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+.video-note {
+  font-size: 16px;
+  color: var(--ink-soft);
+  margin: 0;
+}
