@@ -521,3 +521,7 @@ section:first-of-type { margin-top: 0; }
 
 /* Safety net: media never wider than its column */
 video, img { max-width: 100%; }
+
+/* Dance groups */
+.dance-group + .dance-group { margin-top: 96px; }
+.dance-group .section-heading { margin-bottom: 40px; }
