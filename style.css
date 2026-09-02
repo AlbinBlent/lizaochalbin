@@ -525,3 +525,24 @@ video, img { max-width: 100%; }
 /* Dance groups */
 .dance-group + .dance-group { margin-top: 96px; }
 .dance-group .section-heading { margin-bottom: 40px; }
+
+/* UPLOAD PAGE (bilder) */
+.upload {
+  margin-top: 24px;
+  text-align: center;
+}
+/* Widgeten sätter sin egen höjd: ingen fast höjd, ingen overflow här. */
+#wedibox-embed {
+  width: 100%;
+  min-height: 0;
+}
+.upload-fallback {
+  font-size: 16px;
+  color: var(--ink-soft);
+  margin: 24px 0 0;
+}
+.upload-fallback a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}

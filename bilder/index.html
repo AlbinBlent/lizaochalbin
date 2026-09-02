@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Bilder · Liza & Albin</title>
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+  <meta name="description" content="Ladda upp era bilder från bröllopsdagen." />
+  <meta name="robots" content="noindex" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="sv_SE" />
+  <meta property="og:url" content="https://lizaochalbin.se/bilder/" />
+  <meta property="og:title" content="Bilder · Liza & Albin" />
+  <meta property="og:description" content="Ladda upp era bilder från bröllopsdagen." />
+  <meta property="og:image" content="https://lizaochalbin.se/og-image.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Liza och Albin" />
+
+  <link rel="canonical" href="https://lizaochalbin.se/bilder/" />
+
+  <!-- Samma typsnitt som övriga sidor, men laddade utan att blockera renderingen.
+       style.css har systemtypsnitt som fallback tills de har laddat. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..700,0..100&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..700,0..100&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet" />
+  </noscript>
+  <link rel="stylesheet" href="../style.css?v=3" />
+</head>
+<body>
+  <main>
+    <!-- HERO -->
+    <header class="hero reveal reveal-1">
+      <p class="eyebrow">10 oktober 2026</p>
+      <h1 class="page-title">Era <span class="amp">bilder</span></h1>
+    </header>
+
+    <!-- INTRO -->
+    <section class="greeting reveal reveal-2">
+      <p>Ladda upp era bilder från dagen.</p>
+    </section>
+
+    <!-- UPPLADDNING -->
+    <!-- Ingen .reveal här: widgeten sätter sin egen höjd och kan öppna
+         fixed-positionerade lager, som inte får hamna under en transform. -->
+    <section class="upload" aria-label="Ladda upp bilder">
+      <!-- Wedibox Photo Collection -->
+      <div id="wedibox-embed" data-event="efb20f94-ae89-4a88-bf31-57d25b1299c8"></div>
+      <script src="https://embed.wedibox.com/widget.js" async></script>
+
+      <p class="upload-fallback">Fungerar inte knappen? <a href="https://www.wedibox.com/w/photo-collection/recpb7QIzetqmmL6">Ladda upp här i stället</a></p>
+    </section>
+
+    <section class="osa reveal reveal-3">
+      <a class="button" href="../index.html">Tillbaka</a>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer reveal reveal-4">
+      <p class="footer-monogram">L &amp; A</p>
+      <p class="footer-meta">10 · 10 · 2026</p>
+    </footer>
+  </main>
+</body>
+</html>
