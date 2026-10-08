@@ -28,6 +28,151 @@
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..700,0..100&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet" />
   </noscript>
   <link rel="stylesheet" href="../style.css?v=3" />
+  <style>
+    /* Sök och gästlista */
+    .seat-search { margin: 0 0 40px; }
+    .seat-search label {
+      display: block;
+      font-size: 14px;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      text-align: center;
+      margin: 0 0 14px;
+    }
+    .seat-search input {
+      width: 100%;
+      font: inherit;
+      color: var(--ink);
+      background: #fff;
+      border: 1px solid var(--rule);
+      border-radius: 2px;
+      padding: 14px 16px;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+    .seat-search input:focus { outline: 2px solid var(--accent-soft); outline-offset: 1px; }
+    .guest-list {
+      list-style: none;
+      margin: 12px 0 0;
+      padding: 0;
+      max-height: 330px;
+      overflow-y: auto;
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+    }
+    .guest-list li + li { border-top: 1px solid var(--rule); }
+    .guest-list button {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 16px;
+      width: 100%;
+      font: inherit;
+      color: var(--ink);
+      text-align: left;
+      background: none;
+      border: 0;
+      padding: 11px 8px;
+      cursor: pointer;
+    }
+    .guest-list button:hover,
+    .guest-list button[aria-pressed="true"] { background: var(--bg-warm); }
+    .guest-list .bord {
+      flex: none;
+      font-family: 'Fraunces', Georgia, serif;
+      font-style: italic;
+      color: var(--accent);
+      white-space: nowrap;
+    }
+    .no-hits { color: var(--ink-soft); text-align: center; margin: 16px 0 0; }
+    .seat-result {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 24px;
+      line-height: 1.3;
+      text-align: center;
+      margin: 0 0 16px;
+      min-height: 1.3em;
+      scroll-margin-top: 16px;
+    }
+    .seat-result strong { font-weight: 400; font-style: italic; color: var(--accent); }
+
+    /* Ritningen över lokalen */
+    .plan { margin: 0; }
+    .plan svg { display: block; width: 100%; height: auto; }
+    .plan .floor { fill: var(--bg-warm); }
+    .plan .block { fill: var(--rule); }
+    .plan .wall {
+      fill: none;
+      stroke: var(--ink);
+      stroke-width: 6;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .plan .wall.thin { stroke-width: 4; }
+    .plan .label {
+      font-family: 'DM Sans', system-ui, sans-serif;
+      font-size: 20px;
+      letter-spacing: 0.18em;
+      fill: var(--ink-soft);
+      text-anchor: middle;
+      dominant-baseline: central;
+    }
+    .plan .hall { fill: var(--bg-warm); opacity: 0.5; }
+    .plan .entrance { fill: var(--ink-soft); }
+    .plan .entrance.main { fill: var(--accent); }
+    .plan .entrance-label {
+      font-family: 'Fraunces', Georgia, serif;
+      font-style: italic;
+      font-size: 22px;
+      fill: var(--accent);
+      text-anchor: middle;
+    }
+
+    .plan .table .shape {
+      fill: var(--bg);
+      stroke: var(--ink);
+      stroke-width: 2.5;
+    }
+    .plan .table .num {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 26px;
+      fill: var(--ink);
+      text-anchor: middle;
+      dominant-baseline: central;
+    }
+    .plan .table.small .num { font-size: 20px; }
+    .plan .table.head .shape { stroke: var(--accent); }
+    .plan .table.head .num { fill: var(--accent); }
+    /* Bordet man sökt fram: fylls, blinkar och får en ring som slår ut */
+    .plan .table.found .shape { fill: var(--accent); stroke: var(--accent); animation: seat-blink 0.7s ease-in-out 6; }
+    .plan .table.found .num { fill: #fff; }
+    @keyframes seat-blink { 50% { fill: var(--bg); } }
+    .plan .ping {
+      fill: none;
+      stroke: var(--accent);
+      stroke-width: 6;
+      opacity: 0;
+      pointer-events: none;
+      transform-box: fill-box;
+      transform-origin: center;
+    }
+    .plan .ping.on { animation: seat-ping 1.4s ease-out 3; }
+    @keyframes seat-ping {
+      from { opacity: 0.9; transform: scale(0.5); }
+      to { opacity: 0; transform: scale(2.6); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .plan .table.found .shape, .plan .ping.on { animation: none; }
+    }
+    .plan .head-label {
+      font-family: 'Fraunces', Georgia, serif;
+      font-style: italic;
+      font-size: 20px;
+      fill: var(--accent);
+      text-anchor: end;
+    }
+  </style>
 </head>
 <body>
   <main>
@@ -43,20 +188,225 @@
       <span class="line"></span>
     </div>
 
-    <!-- PLACEHOLDER -->
-    <section class="greeting reveal reveal-3">
-      <p>Bordsplaceringen är inte klar än. Den dyker upp här närmare dagen.</p>
+    <!-- SÖK DITT NAMN -->
+    <section class="seat-search reveal reveal-3">
+      <label for="seatQuery">Hitta din plats</label>
+      <input type="search" id="seatQuery" placeholder="Sök på ditt namn" autocomplete="off" autocorrect="off" spellcheck="false" />
+      <ul class="guest-list" id="guestList"></ul>
+      <p class="no-hits" id="noHits" hidden>Inga träffar. Prova med bara förnamnet.</p>
     </section>
 
-    <section class="osa reveal reveal-4">
+    <!-- RITNING ÖVER LOKALEN -->
+    <p class="seat-result reveal reveal-4" id="seatResult" aria-live="polite"></p>
+    <figure class="plan reveal reveal-4">
+      <svg viewBox="0 0 1060 1440" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ritning över lokalen med numrerade bord">
+
+        <!-- Golvyta -->
+        <polygon class="floor" points="
+          40,265 545,25 578,100 760,112 760,190 810,190 810,120 860,125
+          935,195 905,240 940,300 900,325 905,400 855,410 855,1000
+          845,1110 840,1408 45,1408" />
+
+        <!-- Hallen till höger om lokalen, där gästerna kommer in -->
+        <polygon class="hall" points="905,400 855,410 855,1000 845,1110 840,1408 1040,1408 1040,400" />
+
+        <!-- Ytor som inte är golv -->
+        <g id="blocks">
+          <!-- Utrymme uppe till höger -->
+          <polygon class="block" points="545,25 940,8 945,95 860,125 810,120 810,190 760,190 760,112 578,100" />
+          <!-- Toaletter nere till höger -->
+          <rect class="block" x="600" y="1120" width="240" height="150" />
+          <!-- Scenen -->
+          <rect class="block" x="330" y="140" width="170" height="105" rx="4" />
+        </g>
+
+        <!-- Väggar -->
+        <g id="walls">
+          <!-- Yttervägg: från övre vänstra hörnet, längs taket och ner längs högersidan -->
+          <polyline class="wall" points="
+            40,265 545,25 578,100 760,112 760,190 810,190 810,120 860,125
+            935,195 905,240 940,300 900,325 905,400 855,410 855,1000" />
+          <!-- Hallens ytterväggar, med öppning för huvudentrén i norr -->
+          <line class="wall thin" x1="905" y1="400" x2="938" y2="400" />
+          <polyline class="wall thin" points="1006,400 1040,400 1040,1408 840,1408" />
+          <!-- Vänstervägg och nederkant -->
+          <polyline class="wall" points="40,265 45,1408 560,1408 560,1140 600,1140" />
+
+          <!-- Rummet nere till vänster -->
+          <polyline class="wall" points="45,1105 135,1105 135,1408" />
+          <polyline class="wall" points="460,1408 460,1140 600,1140" />
+
+          <!-- Baren -->
+          <polyline class="wall" points="555,690 555,985 750,985 750,690" />
+
+          <!-- Toaletter -->
+          <polyline class="wall" points="600,1120 600,1270 840,1270 840,1120" />
+
+          <!-- Nedre högra delen -->
+          <line class="wall" x1="560" y1="1408" x2="840" y2="1408" />
+          <line class="wall" x1="840" y1="1280" x2="840" y2="1408" />
+        </g>
+
+        <!-- Rumsnamn -->
+        <g id="labels">
+          <text class="label" x="652" y="765">BAR</text>
+          <text class="label" x="720" y="1195">WC</text>
+          <text class="label" x="415" y="193">SCEN</text>
+          <text class="label" x="330" y="470">DANSGOLV</text>
+          <text class="label" x="948" y="720">HALL</text>
+          <text class="label" x="942" y="1195">GARDEROB</text>
+        </g>
+
+        <!-- Ingångar -->
+        <g id="entrances">
+          <!-- Huvudentrén: norrifrån in i hallen -->
+          <path class="entrance main" d="M966,338 h12 v30 h12 l-18,24 -18,-24 h12 z" />
+          <text class="entrance-label" x="995" y="322">Huvudentré</text>
+          <path class="entrance" d="M844,1030 h-30 v-12 l-24,22 24,22 v-12 h30 z" />
+        </g>
+
+        <!-- Borden. Mitten på varje bord är talets x/y, id:t används av namnsökningen. -->
+        <g id="tables">
+          <g class="table" id="bord-1" data-bord="1"><rect class="shape" x="65" y="675.5" width="110" height="55" rx="4" /><text class="num" x="120" y="703">1</text></g>
+          <g class="table" id="bord-2" data-bord="2"><rect class="shape" x="65" y="765.5" width="110" height="55" rx="4" /><text class="num" x="120" y="793">2</text></g>
+          <g class="table" id="bord-3" data-bord="3"><rect class="shape" x="65" y="855.5" width="110" height="55" rx="4" /><text class="num" x="120" y="883">3</text></g>
+          <g class="table" id="bord-4" data-bord="4"><rect class="shape" x="65" y="938.5" width="110" height="55" rx="4" /><text class="num" x="120" y="966">4</text></g>
+          <g class="table" id="bord-5" data-bord="5"><rect class="shape" x="65" y="1018.5" width="110" height="55" rx="4" /><text class="num" x="120" y="1046">5</text></g>
+          <g class="table" id="bord-6" data-bord="6"><rect class="shape" x="274" y="689.5" width="62" height="55" rx="4" /><text class="num" x="305" y="717">6</text></g>
+          <g class="table" id="bord-7" data-bord="7"><rect class="shape" x="274" y="784.5" width="62" height="55" rx="4" /><text class="num" x="305" y="812">7</text></g>
+          <g class="table" id="bord-8" data-bord="8"><rect class="shape" x="274" y="882.5" width="62" height="55" rx="4" /><text class="num" x="305" y="910">8</text></g>
+          <g class="table" id="bord-9" data-bord="9"><rect class="shape" x="274" y="972.5" width="62" height="55" rx="4" /><text class="num" x="305" y="1000">9</text></g>
+          <g class="table" id="bord-10" data-bord="10"><rect class="shape" x="274" y="1054.5" width="62" height="55" rx="4" /><text class="num" x="305" y="1082">10</text></g>
+          <g class="table" id="bord-11" data-bord="11"><rect class="shape" x="402" y="699.5" width="32" height="285" rx="4" /><text class="num" x="418" y="842">11</text></g>
+          <g class="table" id="bord-12" data-bord="12"><rect class="shape" x="461" y="692.5" width="62" height="55" rx="4" /><text class="num" x="492" y="720">12</text></g>
+          <g class="table" id="bord-13" data-bord="13"><rect class="shape" x="461" y="787.5" width="62" height="55" rx="4" /><text class="num" x="492" y="815">13</text></g>
+          <g class="table" id="bord-14" data-bord="14"><rect class="shape" x="461" y="884.5" width="62" height="55" rx="4" /><text class="num" x="492" y="912">14</text></g>
+          <g class="table small" id="bord-15" data-bord="15"><circle class="shape" cx="395" cy="635" r="25" /><text class="num" x="395" y="635">15</text></g>
+          <g class="table small" id="bord-16" data-bord="16"><circle class="shape" cx="565" cy="590" r="25" /><text class="num" x="565" y="590">16</text></g>
+          <g class="table small" id="bord-17" data-bord="17"><circle class="shape" cx="655" cy="610" r="25" /><text class="num" x="655" y="610">17</text></g>
+          <g class="table" id="bord-19" data-bord="19"><rect class="shape" x="574.5" y="142.5" width="75" height="95" rx="4" /><text class="num" x="612" y="190">19</text></g>
+          <g class="table" id="bord-20" data-bord="20"><rect class="shape" x="674.5" y="147.5" width="75" height="95" rx="4" /><text class="num" x="712" y="195">20</text></g>
+          <g class="table" id="bord-21" data-bord="21"><rect class="shape" x="764" y="201" width="62" height="62" rx="4" /><text class="num" x="795" y="232">21</text></g>
+          <g class="table" id="bord-22" data-bord="22"><rect class="shape" x="574.5" y="407.5" width="75" height="95" rx="4" /><text class="num" x="612" y="455">22</text></g>
+          <g class="table" id="bord-23" data-bord="23"><rect class="shape" x="669.5" y="407.5" width="75" height="95" rx="4" /><text class="num" x="707" y="455">23</text></g>
+          <g class="table" id="bord-24" data-bord="24"><rect class="shape" x="749.5" y="600" width="85" height="60" rx="4" /><text class="num" x="792" y="630">24</text></g>
+          <g class="table" id="bord-25" data-bord="25"><rect class="shape" x="770" y="437.5" width="70" height="65" rx="4" /><text class="num" x="805" y="470">25</text></g>
+          <g class="table" id="bord-26" data-bord="26"><circle class="shape" cx="145" cy="390" r="28" /><text class="num" x="145" y="390">26</text></g>
+          <g class="table head small" id="bord-27" data-bord="27"><circle class="shape" cx="187" cy="330" r="20" /><text class="num" x="187" y="330">27</text></g>
+          <g class="table" id="bord-28" data-bord="28"><circle class="shape" cx="235" cy="295" r="28" /><text class="num" x="235" y="295">28</text></g>
+          <g class="table" id="bord-29" data-bord="29"><circle class="shape" cx="535" cy="128" r="27" /><text class="num" x="535" y="128">29</text></g>
+        </g>
+        <text class="head-label" x="160" y="298">Huvudbord</text>
+        <circle class="ping" id="ping" r="40" />
+      </svg>
+    </figure>
+
+    <section class="osa reveal reveal-5">
       <a class="button" href="/">Tillbaka</a>
     </section>
 
     <!-- FOOTER -->
-    <footer class="footer reveal reveal-5">
+    <footer class="footer reveal reveal-6">
       <p class="footer-monogram">L &amp; A</p>
       <p class="footer-meta">10 · 10 · 2026</p>
     </footer>
   </main>
+  <script>
+    // Bordsplaceringen, kopierad från kalkylbladet 8 oktober 2026. Bordsnummer -> gäster.
+    const SEATING = {
+      1: ['Seham Tomi', 'Emanuel Tomi', 'Basil Tomi', 'Akil', 'Nebil Tomi', 'Nehla Shaya', 'Salam Abdul Ahat', 'Sam Tomi'],
+      2: ['Erik Löfgren', 'Anna Jernqvist Löfgren', 'Anna Hedlund', 'Jonas Hedlund', 'Mattias Löfgren', 'Jin Persson Löfgren', 'Martin Björkstrand', 'Jonas Åberg', 'Stina Åberg'],
+      3: ['Soheer Bahnam', 'Rounak Otman', 'Basem Naji', 'Sundus Naji', 'Amel Abdollahi', 'Hanan Nissan', 'Anita Albazi', 'Janan Nissan'],
+      4: ['Bironia Orahem', 'Klela Orahem', 'Sorma Orahem', 'Dinkha Elia', 'Nadyia Elia'],
+      5: ['Younia Primo', 'Shamasha William Kojo', 'Hilda Benjamin', 'William Benjamin'],
+      6: ['Alan', 'Gabriela', 'Inanna', 'Emilia', 'Anda', 'Florin'],
+      7: ['Jean Andria', 'Alina Timi', 'Marten Andria', 'Tina Andria', 'Melissa', 'Mariella', 'Eptisam Mansor'],
+      8: ['Karin Blent', 'Roger Blent', 'Krister Löfgren', 'Bo Löfgren', 'Mikael Blent', 'Anette Blent'],
+      9: ['Robin Lindberg', 'Lauren Lindberg', 'Therese Heimberger', 'Josefine Lindqvist', 'Karin Ericsson', 'Ludwig Forsberg', 'Josefin Larsson'],
+      10: ['Hala Namrood', 'Michel', 'Selma Namrood', 'Zeinab Muslem'],
+      11: ['Malik Abona', 'Nadia Abona', 'Toni Abona', 'Naharen Benjamin', 'Mona Abona', 'Mariam Gallo', 'Mathias Gallo', 'Aschur Nikola', 'Tania Nikola', 'Magid Abona', 'Magida Abona', 'Rafid Malan', 'Vivian Malan', 'Stefan Hanna', 'Havin Hanna', 'Tomas Hanna', 'Rania Hanna'],
+      12: ['Viktor Blent', 'Lisa Bast', 'Johan Blent', 'Theresia Jonsson', 'Jonas Blent', 'Lina Sjöbom', 'Nathalie Blent', 'Kalle Karlsson'],
+      13: ['Rouzbeh Djalaie', 'Rasmus Columbus', 'Rana Soleimani', 'Janett Khador', 'Amela Mahovic', 'Hanna Thåström'],
+      14: ['Robin Von Euw', 'Staffan Berg Persson', 'Johan Cederlöf', 'Elin Rydner', 'Anton Karlsson', 'Emilia Roosmark'],
+      15: ['Daniel Arameus', 'Norhan Youssef', 'Siham Youssef'],
+      16: ['Hazim Katto', 'Sahira'],
+      17: ['Antsar Almalih', 'Nahida Boya', 'Basima Gebrail', 'Maria Gur (Hanna)', 'Ahlam Hanna'],
+      19: ['Samira Kado', 'Iskander Bikasha', 'Lena Kado', 'Wisam Malan', 'Ramsi Yousef', 'Linda Kado'],
+      20: ['Yasamin Lahdo', 'Ziad Sabah Salman', 'Shmeran Salman', 'Tanya Salman', 'Kostas Salman', 'Tony Salman'],
+      21: ['Julette Adam', 'Barno Isa', 'Helena Ibrahim', 'Tabbi', 'Samir Kado', 'Suzan Kado'],
+      22: ['Antonia Anserson', 'Jocke Setterwall', 'Jonte Herlitz', 'Hanna Schück', 'Carl Rosendahl', 'Rachel Wu', 'Max Eriksson', 'Sara Jernberg', 'Kasper Irgens Bäcker', 'Amanda Irgens Bäcker'],
+      23: ['Saliba Merza', 'Andre Hamik', 'Ivan Feili', 'William Feili', 'Wilsen Salem'],
+      24: ['Emma Persson', 'Sven Ahlberg', 'Sanna Tyni', 'Eric Gratorp', 'Niclas Sjökvist', 'Rebecka Melin Rydfalk', 'Viktor Lindberg', 'Matilda Lindberg'],
+      25: ['Olle Ax', 'Attozza Kiai', 'Danne Bredin', 'Selma Kling', 'Sauptak Banerjee', 'Michael Sparr', 'Mattias Ljungberg', 'Stina Åkesson'],
+      26: ['Lina', 'Zoi', 'Marina', 'Linn'],
+      27: ['Albin', 'Liza'],
+      28: ['Robin', 'Simon', 'Micke', 'Jesper'],
+    };
+
+    // Sökningen bryr sig inte om stora/små bokstäver eller accenter.
+    const fold = s => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+
+    const guests = Object.entries(SEATING)
+      .flatMap(([table, names]) => names.map(name => ({ name, table: Number(table), key: fold(name) })))
+      .sort((a, b) => a.name.localeCompare(b.name, 'sv'));
+
+    const list = document.getElementById('guestList');
+    const query = document.getElementById('seatQuery');
+    const noHits = document.getElementById('noHits');
+    const result = document.getElementById('seatResult');
+    const ping = document.getElementById('ping');
+
+    for (const g of guests) {
+      const li = document.createElement('li');
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.setAttribute('aria-pressed', 'false');
+      const name = document.createElement('span');
+      name.textContent = g.name;
+      const bord = document.createElement('span');
+      bord.className = 'bord';
+      bord.textContent = 'Bord ' + g.table;
+      btn.append(name, bord);
+      btn.addEventListener('click', () => show(g, btn));
+      li.append(btn);
+      list.append(li);
+      g.li = li;
+    }
+
+    query.addEventListener('input', () => {
+      const words = fold(query.value).split(/\s+/).filter(Boolean);
+      let hits = 0;
+      for (const g of guests) {
+        const match = words.every(w => g.key.includes(w));
+        g.li.hidden = !match;
+        if (match) hits++;
+      }
+      list.hidden = hits === 0;
+      noHits.hidden = hits !== 0;
+    });
+
+    function show(g, btn) {
+      for (const b of list.querySelectorAll('[aria-pressed="true"]')) b.setAttribute('aria-pressed', 'false');
+      btn.setAttribute('aria-pressed', 'true');
+
+      result.replaceChildren(g.name + ' sitter vid ');
+      const strong = document.createElement('strong');
+      strong.textContent = g.table === 27 ? 'huvudbordet' : 'bord ' + g.table;
+      result.append(strong);
+
+      for (const t of document.querySelectorAll('.plan .table.found')) t.classList.remove('found');
+      const table = document.getElementById('bord-' + g.table);
+      const box = table.querySelector('.shape').getBBox();
+      ping.setAttribute('cx', box.x + box.width / 2);
+      ping.setAttribute('cy', box.y + box.height / 2);
+      ping.classList.remove('on');
+      void table.getBoundingClientRect(); // starta om animationerna om samma bord väljs igen
+      table.classList.add('found');
+      ping.classList.add('on');
+
+      const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      result.scrollIntoView({ behavior: calm ? 'auto' : 'smooth', block: 'start' });
+    }
+  </script>
 </body>
 </html>
