@@ -431,6 +431,16 @@ section:first-of-type { margin-top: 0; }
 }
 .hero-cta:hover .arrow { transform: translateX(3px); }
 
+/* Flera länkar under varandra i heron */
+.hero-links {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-top: 28px;
+}
+.hero-links .hero-cta { margin-top: 0; }
+
 /* DANCE PAGE */
 .back-link {
   display: inline-block;
