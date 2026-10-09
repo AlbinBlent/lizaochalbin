@@ -29,40 +29,65 @@
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..700,0..100&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet" />
   </noscript>
   <link rel="stylesheet" href="../style.css?v=4" />
+  <style>
+    /* Widgeten är sidan: en smal rad överst, sedan fyller den resten av skärmen.
+       Sidan själv skrollar inte, bara widgeten. */
+    html, body { height: 100%; overflow: hidden; }
+    body { min-height: 0; padding: 0 12px; }
+    main {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      height: 100dvh;
+      padding: 14px 0 max(12px, env(safe-area-inset-bottom));
+    }
+    .photos-bar {
+      flex: none;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: baseline;
+      gap: 12px;
+      padding: 0 4px;
+    }
+    .photos-bar .back-link { margin: 0; justify-self: start; white-space: nowrap; }
+    .photos-bar .page-title { font-size: 30px; white-space: nowrap; }
+    .photos-bar .upload-fallback {
+      grid-column: 1 / -1;
+      margin: 2px 0 0;
+      font-size: 14px;
+      text-align: center;
+    }
+    .upload {
+      flex: 1;
+      min-height: 0;
+      margin-top: 12px;
+    }
+    #wedibox-embed { height: 100%; }
+    /* Widgeten sätter höjd som inline-stil, därav !important. */
+    #wedibox-embed iframe {
+      height: 100% !important;
+      min-height: 0 !important;
+      max-height: 100% !important;
+    }
+  </style>
 </head>
 <body>
   <main>
-    <!-- HERO -->
-    <header class="hero reveal reveal-1">
-      <p class="eyebrow">10 oktober 2026</p>
+    <!-- Smal rad överst: tillbaka, rubrik och reservlänk -->
+    <header class="photos-bar reveal reveal-1">
+      <a class="back-link" href="/">← Tillbaka</a>
       <h1 class="page-title">Era <span class="amp">bilder</span></h1>
+      <p class="upload-fallback">Fungerar det inte? <a href="https://www.wedibox.com/w/photo-collection/recpb7QIzetqmmL6">Ladda upp här i stället</a></p>
     </header>
 
-    <!-- INTRO -->
-    <section class="greeting reveal reveal-2">
-      <p>Ladda upp era bilder från dagen.</p>
-    </section>
-
     <!-- UPPLADDNING -->
-    <!-- Ingen .reveal här: widgeten sätter sin egen höjd och kan öppna
-         fixed-positionerade lager, som inte får hamna under en transform. -->
+    <!-- Ingen .reveal här: widgeten kan öppna fixed-positionerade lager,
+         som inte får hamna under en transform. -->
     <section class="upload" aria-label="Ladda upp bilder">
       <!-- Wedibox Photo Collection -->
       <div id="wedibox-embed" data-event="efb20f94-ae89-4a88-bf31-57d25b1299c8"></div>
       <script src="https://embed.wedibox.com/widget.js" async></script>
-
-      <p class="upload-fallback">Fungerar inte knappen? <a href="https://www.wedibox.com/w/photo-collection/recpb7QIzetqmmL6">Ladda upp här i stället</a></p>
     </section>
-
-    <section class="osa reveal reveal-3">
-      <a class="button" href="/">Tillbaka</a>
-    </section>
-
-    <!-- FOOTER -->
-    <footer class="footer reveal reveal-4">
-      <p class="footer-monogram">L &amp; A</p>
-      <p class="footer-meta">10 · 10 · 2026</p>
-    </footer>
   </main>
 </body>
 </html>
